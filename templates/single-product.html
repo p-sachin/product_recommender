@@ -1,0 +1,505 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .styled-table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .styled-table thead tr {
+   background-color: #777777;
+   color: #ffffff;
+   text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+   border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+   background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+   border-bottom: 2px solid #777777;
+}
+
+.styled-table tbody tr.active-row {
+   font-weight: bold;
+   color: #009879;
+}
+
+hr {
+   position: relative;
+   top: 69px;
+}
+
+.mt-160 {
+   margin-top: 160px;
+}
+
+.flash-upload {
+   padding-left: 400px;
+}
+
+</style>
+    
+<header class="header-content">
+  <nav class="navbar navbar-expand-lg navbar-light">
+     <div class="container">
+      <a class="navbar-brand logo" href="#">Fashiona</a>
+
+       <!-- <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="25" height="24" class="nav-logo"> -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle Navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+           <ul class="navbar-nav main">
+              <li class="nav-item">
+                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                 <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+              </li>
+           </ul>
+        </div>
+     </div>
+  </nav>
+</header>
+
+<section class="py-5 text-center container-fluid blog-banner" id="about">
+   <div class="row py-lg-5">
+     <div class="col-lg-6 col-md-8 mx-auto">
+       <h1 class="fw-light">Welcome <span id="user">{{name}},</span></h1>
+       <p class="lead text-muted"></p>
+       <p>
+       </p>
+     </div>
+   </div>
+ </section>
+
+  <!--================Single Product Area =================-->
+  <div class="product_image_area section_padding">
+   <div class="container">
+     <div class="row s_product_inner justify-content-between">
+       <div class="col-lg-7 col-xl-7">
+         <div class="product_slider_img">
+           <div id="vertical">
+             <div data-thumb="{{information.image}}">
+               <img src="{{information.image}}" />
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-lg-5 col-xl-4">
+         <div class="s_product_text">
+           <h5>previous <span>|</span> next</h5>
+           <h3>{{information.productDisplayName}}</h3>
+           <h2>$149.99</h2>
+           <ul class="list">
+             <li>
+               <a class="active" href="#">
+                 <span>Category</span> : Household</a>
+             </li>
+             <li>
+               <a href="#"> <span>Availibility</span> : In Stock</a>
+             </li>
+           </ul>
+           <p>
+             First replenish living. Creepeth image image. Creeping can't, won't called.
+             Two fruitful let days signs sea together all land fly subdue
+           </p>
+           <div class="card_area d-flex justify-content-between align-items-center">
+             <div class="product_count">
+               <span class="inumber-decrement"> <i class="ti-minus"></i></span>
+               <input class="input-number" type="text" value="1" min="0" max="10">
+               <span class="number-increment"> <i class="ti-plus"></i></span>
+             </div>
+             <a href="#" class="btn_3">add to cart</a>
+             <a href="#" class="like_us"> <i class="ti-heart"></i> </a>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ <!--================End Single Product Area =================-->
+
+ <!--================Product Description Area =================-->
+ <section class="product_description_area">
+   <div class="container">
+     <ul class="nav nav-tabs" id="myTab" role="tablist">
+       <li class="nav-item">
+         <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+           aria-selected="false">Specification</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+           aria-selected="false">Comments</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link active" id="review-tab" data-bs-toggle="tab" href="#review" role="tab" aria-controls="review"
+           aria-selected="false">Reviews</a>
+       </li>
+     </ul>
+     <div class="tab-content" id="myTabContent">
+       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+         <div class="table-responsive">
+           <table class="table">
+             <tbody>
+               <tr>
+                 <td>
+                   <h5>Main Category</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.masterCategory}}</h5>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <h5>Sub Category</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.subCategory}}</h5>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <h5>Type</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.articleType}}</h5>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <h5>Gender</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.gender}}</h5>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <h5>Color</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.baseColour}}</h5>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <h5>Season</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.season}}</h5>
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <h5>Usage</h5>
+                 </td>
+                 <td>
+                   <h5>{{information.usage}}</h5>
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+         <div class="row">
+           <div class="col-lg-6"> 
+             <div class="comment_list">
+              {% for comment in comments %}
+               <div class="review_item">
+                 <div class="media">
+                   <div class="d-flex">
+                     <img src="img/product/single-product/review-1.png" alt="" />
+                   </div>
+                   <div class="media-body">
+                     <h4>{{comment.name}}</h4>
+                     <h5>{{comment.posted_at}}</h5>
+                   </div>
+                 </div>
+                 <p>
+                   {{comment.message}}
+                 </p>
+               </div>
+               {% endfor %}
+             </div>
+           </div>
+           <div class="col-lg-6">
+             <div class="review_box">
+               <h4>Post a comment</h4>
+               <form class="row contact_form" action="#" method="post" id="contactForm"
+                 novalidate="novalidate">
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" />
+                   </div>
+                 </div>
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" />
+                   </div>
+                 </div>
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <textarea class="form-control" name="message" id="message" rows="1"
+                       placeholder="Message"></textarea>
+                   </div>
+                 </div>
+                 <div class="col-md-12 text-right">
+                   <button type="submit" value="submit" class="btn_3">
+                     Submit Now
+                   </button>
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+         <div class="row">
+           <div class="col-lg-6">
+             <div class="row total_rate">
+               <div class="col-6">
+                 <div class="box_total">
+                   <h5>Overall</h5>
+                   <h4>4.0</h4>
+                   <h6>(03 Reviews)</h6>
+                 </div>
+               </div>
+               <div class="col-6">
+                 <div class="rating_list">
+                   <h3>Based on 3 Reviews</h3>
+                   <ul class="list">
+                     <li>
+                       <a href="#">5 Star
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i> 01</a>
+                     </li>
+                     <li>
+                       <a href="#">4 Star
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i> 01</a>
+                     </li>
+                     <li>
+                       <a href="#">3 Star
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i> 01</a>
+                     </li>
+                     <li>
+                       <a href="#">2 Star
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i> 01</a>
+                     </li>
+                     <li>
+                       <a href="#">1 Star
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i>
+                         <i class="fa fa-star"></i> 01</a>
+                     </li>
+                   </ul>
+                 </div>
+               </div>
+             </div>
+             <div class="review_list">
+               <div class="review_item">
+                 <div class="media">
+                   <div class="d-flex">
+                     <img src="img/product/single-product/review-1.png" alt="" />
+                   </div>
+                   <div class="media-body">
+                     <h4>Blake Ruiz</h4>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                   </div>
+                 </div>
+                 <p>
+                   Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                   sed do eiusmod tempor incididunt ut labore et dolore magna
+                   aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                   ullamco laboris nisi ut aliquip ex ea commodo
+                 </p>
+               </div>
+               <div class="review_item">
+                 <div class="media">
+                   <div class="d-flex">
+                     <img src="img/product/single-product/review-2.png" alt="" />
+                   </div>
+                   <div class="media-body">
+                     <h4>Blake Ruiz</h4>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                   </div>
+                 </div>
+                 <p>
+                   Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                   sed do eiusmod tempor incididunt ut labore et dolore magna
+                   aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                   ullamco laboris nisi ut aliquip ex ea commodo
+                 </p>
+               </div>
+               <div class="review_item">
+                 <div class="media">
+                   <div class="d-flex">
+                     <img src="img/product/single-product/review-3.png" alt="" />
+                   </div>
+                   <div class="media-body">
+                     <h4>Blake Ruiz</h4>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                     <i class="fa fa-star"></i>
+                   </div>
+                 </div>
+                 <p>
+                   Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                   sed do eiusmod tempor incididunt ut labore et dolore magna
+                   aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                   ullamco laboris nisi ut aliquip ex ea commodo
+                 </p>
+               </div>
+             </div>
+           </div>
+           <div class="col-lg-6">
+             <div class="review_box">
+               <h4>Add a Review</h4>
+               <p>Your Rating:</p>
+               <ul class="list">
+                 <li>
+                   <a href="#">
+                     <i class="fa fa-star"></i>
+                   </a>
+                 </li>
+                 <li>
+                   <a href="#">
+                     <i class="fa fa-star"></i>
+                   </a>
+                 </li>
+                 <li>
+                   <a href="#">
+                     <i class="fa fa-star"></i>
+                   </a>
+                 </li>
+                 <li>
+                   <a href="#">
+                     <i class="fa fa-star"></i>
+                   </a>
+                 </li>
+                 <li>
+                   <a href="#">
+                     <i class="fa fa-star"></i>
+                   </a>
+                 </li>
+               </ul>
+               <p>Outstanding</p>
+               <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <input type="text" class="form-control" name="name" placeholder="Your Full name" />
+                   </div>
+                 </div>
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <input type="email" class="form-control" name="email" placeholder="Email Address" />
+                   </div>
+                 </div>
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <textarea class="form-control" name="message" rows="1" placeholder="Review"></textarea>
+                   </div>
+                 </div>
+                 <div class="col-md-12 text-right">
+                   <button type="submit" value="submit" class="btn_3">
+                     Submit Now
+                   </button>
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </section>
+ <!--================End Product Description Area =================-->
+
+ <!-- product_list part start-->
+ <section class="product_list best_seller">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="section_tittle text-center">
+          <h2>Recommended Products</h2>
+        </div>
+      </div>
+    </div>
+      <div class="row align-items-center justify-content-between">
+        <div class="col-lg-12">
+          <div class="best_product_slider owl-carousel">
+            {% for items in rec %}
+            <div class="single_product_item">
+              <a href="{{url_for('info', id=items.id)}}"><img src="{{items.image}}" alt=""></a>
+              <div class="single_product_text">
+                <h4>{{items.productDisplayName}}</h4>
+                <h3>$150.00</h3>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+<!-- product_list part end-->
+
+    <!-- Footer Section Starts -->
+    {{footer()}}
+    <!-- Footer Section Ends -->
+
+ {% endblock %}
