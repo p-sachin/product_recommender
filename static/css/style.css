@@ -1971,7 +1971,7 @@ a {
 */
 
 footer.footer-area {
-  background: #f4f4f8;
+  background: #111;
   padding: 50px 0;
   color: #fff;
   font-size: 13px;
@@ -1979,7 +1979,7 @@ footer.footer-area {
 
 .footer-title h3 {
   font-size: 19px;
-  color: #111;
+  color: #fff;
   font-weight: 600;
   text-transform: uppercase;
   padding-bottom: 10px;
@@ -1989,7 +1989,7 @@ footer.footer-area {
 .footer-title h3 a:hover,
 .footer-title h3 a:focus,
 .footer-title h3 a:visited {
-  color: #111;
+  color: #fff;
 }
 
 footer.footer-area .social-icons li {
@@ -2001,17 +2001,17 @@ footer.footer-area .social-icons li {
 footer.footer-area .social-icons li a i {
   font-size: 15px;
   width: 36px;
-  color: #111;
+  color: #fff;
   height: 36px;
   text-align: center;
   border-radius: 50%;
   display: table-cell;
   vertical-align: middle;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 footer.footer-area .social-icons li a i:hover {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.5);
   -webkit-transition: all 500ms ease;
   -moz-transition: all 500ms ease;
   -ms-transition: all 500ms ease;
@@ -2024,10 +2024,18 @@ footer.footer-area .contact-info h3.contact-name {
 }
 
 footer.footer-area .contact-info h3 {
-  color: #111;
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
+}
+
+aside.f-about p {
+  color: #fff;
+}
+
+p.address {
+  color: #fff;
 }
 
 footer.footer-area .copyright-text {

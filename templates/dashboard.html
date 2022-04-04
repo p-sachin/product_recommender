@@ -148,7 +148,7 @@ hr {
                               <ul class="list">
                                   {% for key, val in cat_filter.items() %}
                                   <li>
-                                      <a href="#">{{key}}</a>
+                                      <a href="{{ url_for('categories', type=key)}}">{{key}}</a>
                                       <span>({{val}})</span>
                                   </li>
                                   {% endfor %}
@@ -164,7 +164,7 @@ hr {
                               <ul class="list">
                                   {% for keys,values in sub_filter.items() %}
                                   <li>
-                                      <a href="#">{{keys}}</a>
+                                      <a href="{{ url_for('filters', type=keys)}}">{{keys}}</a>
                                       <span>({{values}})</span>
                                   </li>
                                   {% endfor %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, session, url_for, request
 from flask_bootstrap import Bootstrap
 import joblib
 import numpy as np
@@ -221,29 +221,62 @@ def dashboard():
                 db.session.add(product2database)
         db.session.commit()
 
-    prode = db.session.query(Products).all()
+        prode = db.session.query(Products).all()
 
-    base_color = [item.baseColour for item in prode]
-    article_type = [item.articleType for item in prode]
+        base_color = [item.baseColour for item in prode]
+        article_type = [item.articleType for item in prode]
 
-    prod = db.session.query(Products).paginate(page=page, per_page=12)
+        prod = db.session.query(Products).paginate(page=page, per_page=12)
 
-    #Counts
-    total_prod = len(prode)
+        #Counts
+        total_prod = len(prode)
 
-    # FIlter MasterCat
-    res = list(item.masterCategory for item in prode)
-    my_dict = {i:res.count(i) for i in res}
-    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-    sorted_master = {k: v for k, v in my_dict}
+        # FIlter MasterCat
+        res = list(item.masterCategory for item in prode)
+        my_dict = {i:res.count(i) for i in res}
+        my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+        sorted_master = {k: v for k, v in my_dict}
 
-    #Filter SubCat
-    result = list(item.subCategory for item in prode)
-    my_dict = {i:result.count(i) for i in result}
-    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-    sub_filter = {k: v for k, v in my_dict}
+        #Filter SubCat
+        result = list(item.subCategory for item in prode)
+        my_dict = {i:result.count(i) for i in result}
+        my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+        sub_filter = {k: v for k, v in my_dict}
 
-    return render_template('dashboard.html', products=prod, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
+        return render_template('dashboard.html', products=prod, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
+
+    else:
+
+        session['cat_filter'] = sorted_master
+        session['sub_filter'] = sub_filter
+        return redirect(url_for('categories'))
+
+
+@app.route('/categories', methods=['GET', 'POST'])
+def categories():
+    page = request.args.get('page', 1, type=int)
+    tag = request.args.get('type')
+    sorted_master = session.get('cat_filter', None)
+    total_prod = session.get('prod_count', None)
+    sub_filter = session.get('sub_filter', None)
+    search = "%{}%".format(tag)
+    total_prod = len(Products.query.filter(Products.masterCategory.like(search)).all())
+    categories = Products.query.filter(Products.masterCategory.like(search)).paginate(page=page, per_page=12)
+    return render_template('dashboard.html', products=categories, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
+
+@app.route('/filters', methods=['GET', 'POST'])
+def filters():
+    page = request.args.get('page', 1, type=int)
+    tag = request.args.get('type')
+    sorted_master = session.get('cat_filter', None)
+    total_prod = session.get('prod_count', None)
+    sub_filter = session.get('sub_filter', None)
+    search = "%{}%".format(tag)
+    total_prod = len(Products.query.filter(Products.subCategory.like(search)).all())
+    categories = Products.query.filter(Products.subCategory.like(search)).paginate(page=page, per_page=12)
+    return render_template('dashboard.html', products=categories, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
+
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
