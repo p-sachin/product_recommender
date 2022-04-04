@@ -23,6 +23,9 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import requests
+import csv
+from sqlalchemy import create_engine
+from sqlalchemy.orm.session import sessionmaker
 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 
@@ -48,7 +51,7 @@ model = tensorflow.keras.Sequential([
 
 feature_list = np.array(joblib.load(open('image-embed.pkl', 'rb')))
 filenames = joblib.load(open('file-name.pkl', 'rb'))
-myjsonfile = open('csvjson10000.json', 'r')
+myjsonfile = open('csvjson.json', 'r')
 jsondata = myjsonfile.read()
 
 products = json.loads(jsondata)
@@ -253,7 +256,7 @@ def search():
             productDisplayName = [item.productDisplayName for item in all_products]
             id = [item.id for item in all_products]
             df = pd.DataFrame()
-            index = [value for value in range(1000)]
+            index = [value for value in range(10000)]
             df['productDisplayName'] = productDisplayName
             df['id'] = id
             df['index'] = index
@@ -295,9 +298,8 @@ def search():
         else:
 
             imageFile = request.files['fileup']
-            image_path = "./uploaded_images/" + imageFile.filename    
+            image_path = "./static/img/" + imageFile.filename    
             imageFile.save(image_path)
-            print(image_path)
             image = load_img(image_path, target_size=(60, 80))
             reco_id = image_search_recommend(image, feature_list)
             prod_list = []
@@ -305,8 +307,7 @@ def search():
                 recommended_products = db.session.query(Products).filter(Products.id==r_id).first()
                 prod_list.append(recommended_products)
 
-            print(prod_list)
-            return render_template('product-list.html', prod_lists=prod_list)
+            return render_template('product-list.html', prod_lists=prod_list, img_name=imageFile.filename)
 
 @app.route('/product_details/<id>', methods=['GET', 'POST'])
 def info(id):
@@ -318,7 +319,6 @@ def info(id):
         message = request.form.get('message')
         comment = Comments(name=name, email=email, message=message, id=id)
         db.session.add(comment)
-        flash('Submitted')
         db.session.commit()
         return redirect(request.url)
     user_info=db.session.query(Products).filter(Products.id==id).first()

@@ -122,7 +122,14 @@ hr {
         <div class="col-lg-8 mx-auto">
             {% if searched_product %}
             <div class="searched-text">
-                <h4>Showing results for the searched item "{{name}}"</h4>
+                <h4>Showing results for the searched item "<span class="misc-text">{{name}}</span>"</h4>
+            </div>
+            {% else %}
+            <div class="searched-text">
+                <h4>Showing products similar to your image: </h4>
+            </div>
+            <div class="search-img">
+                <img src="{{ url_for('static', filename='img/' + img_name) }}" >
             </div>
             {% endif %}
             <!-- List group-->

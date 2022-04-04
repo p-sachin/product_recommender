@@ -2078,3 +2078,20 @@ footer.footer-area .footer-inner aside.footer-contact {
 .product-info {
   margin-left: 20px;
 }
+
+.search-img {
+  margin: 20px 0px;
+}
+
+.search-img img {
+  height: 200px;
+  width: 200px;
+}
+
+.searched-text {
+  margin: 10px 0px 15px 0;
+}
+
+.misc-text {
+  color: #ef6108;
+}
