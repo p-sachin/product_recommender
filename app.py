@@ -48,7 +48,7 @@ model = tensorflow.keras.Sequential([
 
 feature_list = np.array(joblib.load(open('image-embed.pkl', 'rb')))
 filenames = joblib.load(open('file-name.pkl', 'rb'))
-myjsonfile = open('csvjson.json', 'r')
+myjsonfile = open('csvjson10000.json', 'r')
 jsondata = myjsonfile.read()
 
 products = json.loads(jsondata)
@@ -136,6 +136,7 @@ class Products(db.Model):
     baseColour = db.Column(db.String(255),nullable=False,default='Not available')
     season = db.Column(db.String(20),nullable=False,default='Not available')
     usage = db.Column(db.String(20),nullable=False,default=0)
+    amount = db.Column(db.DECIMAL(10,2))
     image = db.Column(db.Text(),nullable=False,default='http://assets.myntassets.com/v1/images/style/properties/7a5b82d1372a7a5c6de67ae7a314fd91_images.jpg')
 
 class Comments(db.Model):
@@ -210,6 +211,7 @@ def dashboard():
                 baseColour=item["baseColour"],
                 season=item["season"],
                 usage=item["usage"],
+                amount=item['price'],
                 productDisplayName=item["productDisplayName"],
                 image = item["image"]
             )
@@ -245,7 +247,6 @@ def search():
     if request.method == 'POST':
         name = request.form.get('keyword')
         if name != '':
-            print(name)
             all_products = db.session.query(Products).all()
             base_color = [item.baseColour for item in all_products]
             article_type = [item.articleType for item in all_products]
@@ -289,7 +290,7 @@ def search():
 
             print(searched_products)
 
-            return render_template('product-list.html', searched_product=searched_products)
+            return render_template('product-list.html', searched_product=searched_products, name=name)
 
         else:
 

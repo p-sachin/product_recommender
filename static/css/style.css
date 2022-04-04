@@ -826,9 +826,15 @@ footer.footer-area .contact-info h3 {
   margin-bottom: 15px;
 }
 
+.s_product_text ul {
+  margin-top: 30px;
+}
+
 /* line 639, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
 .s_product_text .list li {
   margin-bottom: 5px;
+  border-bottom: 1px dotted #d5d5d5;
+  padding: 5px;
 }
 
 /* line 642, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
@@ -841,7 +847,7 @@ footer.footer-area .contact-info h3 {
 
 /* line 648, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
 .s_product_text .list li a span {
-  width: 90px;
+  width: 110px;
   display: inline-block;
 }
 
