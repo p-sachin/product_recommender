@@ -121,9 +121,15 @@ hr {
     <div class="row">
         <div class="col-lg-8 mx-auto">
             {% if searched_product %}
+            {% if searched_product == 'None' %}
+            <div class="searched-text">
+                <h4>No results found for the searched item "<span class="misc-text">{{name}}</span>"</h4>
+            </div>
+            {% else %}
             <div class="searched-text">
                 <h4>Showing results for the searched item "<span class="misc-text">{{name}}</span>"</h4>
             </div>
+            {% endif %}
             {% else %}
             <div class="searched-text">
                 <h4>Showing products similar to your image: </h4>
@@ -136,6 +142,9 @@ hr {
             <ul class="list-group shadow">
                 <!-- list group item-->
                 {% if searched_product %}
+                {% if searched_product == 'None' %}
+                    <div></div>
+                {% else %}
                   {% for items in searched_product %}
                 <li class="list-group-item">
                     <!-- Custom content-->
@@ -150,6 +159,7 @@ hr {
                     </div> <!-- End -->
                 </li> <!-- End -->
                 {% endfor %}
+                {% endif %}
 
                 {% else %}
 

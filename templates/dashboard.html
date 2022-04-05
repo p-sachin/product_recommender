@@ -162,7 +162,7 @@ hr {
                           </div>
                           <div class="widgets_inner">
                               <ul class="list">
-                                  {% for keys,values in sub_filter.items() %}
+                                  {% for keys, values in sub_filter.items() %}
                                   <li>
                                       <a href="{{ url_for('filters', type=keys)}}">{{keys}}</a>
                                       <span>({{values}})</span>

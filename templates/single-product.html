@@ -231,7 +231,7 @@ hr {
               <a href="{{url_for('info', id=items.id)}}"><img src="{{items.image}}" alt=""></a>
               <div class="single_product_text">
                 <h4>{{items.productDisplayName}}</h4>
-                <h3>$150.00</h3>
+                <h3>${{items.amount}}</h3>
               </div>
             </div>
             {% endfor %}

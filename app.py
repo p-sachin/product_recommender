@@ -48,10 +48,9 @@ model = tensorflow.keras.Sequential([
     GlobalMaxPooling2D()
 ])
 
-
-feature_list = np.array(joblib.load(open('image-embed.pkl', 'rb')))
-filenames = joblib.load(open('file-name.pkl', 'rb'))
-myjsonfile = open('csvjson10000.json', 'r')
+feature_list = np.array(joblib.load(open('models\image_embed_1.pkl', 'rb')))
+filenames = joblib.load(open('models\_file_name_1.pkl', 'rb'))
+myjsonfile = open('data\dataset\_final_csvjson.json', 'r')
 jsondata = myjsonfile.read()
 
 products = json.loads(jsondata)
@@ -66,10 +65,11 @@ def recommend(image_url, feature_list):
     preprocessed_img = preprocess_input(expanded_img_array)
     result = model.predict(preprocessed_img).flatten()
     normalized_result = result /  norm(result)
-    neighbors = NearestNeighbors(n_neighbors=5, algorithm='brute', metric='euclidean')
+    neighbors = NearestNeighbors(n_neighbors=6, algorithm='brute', metric='euclidean')
     neighbors = neighbors.fit(feature_list)
     indices = neighbors.kneighbors([normalized_result])[1]
-    for file in indices[0]:
+
+    for file in indices[0][1:6]:
         target = filenames[file]
         digits = [d for d in target if d.isdigit()]
         digit = ''.join(digits)
@@ -238,40 +238,67 @@ def dashboard():
         sorted_master = {k: v for k, v in my_dict}
 
         #Filter SubCat
-        result = list(item.subCategory for item in prode)
+        result = list(item.articleType for item in prode)
         my_dict = {i:result.count(i) for i in result}
         my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
         sub_filter = {k: v for k, v in my_dict}
         
         return render_template('dashboard.html', products=prod, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
-    else:
+    # else:
 
-        session['cat_filter'] = sorted_master
-        session['sub_filter'] = sub_filter
-        return redirect(url_for('categories'))
+    #     session['cat_filter'] = sorted_master
+    #     session['sub_filter'] = sub_filter
+    #     return redirect(url_for('categories'))
 
 
 @app.route('/categories', methods=['GET', 'POST'])
 def categories():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
-    sorted_master = session.get('cat_filter', None)
-    sub_filter = session.get('sub_filter', None)
+    # sorted_master = session.get('cat_filter', None)
+    # sub_filter = session.get('sub_filter', None)
     search = "%{}%".format(tag)
+    prode = db.session.query(Products).all()
     total_prod = len(Products.query.filter(Products.masterCategory.like(search)).all())
     categories = Products.query.filter(Products.masterCategory.like(search)).paginate(page=page, per_page=12)
+
+    # FIlter MasterCat
+    res = list(item.masterCategory for item in prode)
+    my_dict = {i:res.count(i) for i in res}
+    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+    sorted_master = {k: v for k, v in my_dict}
+
+    #Filter SubCat
+    result = list(item.articleType for item in prode)
+    my_dict = {i:result.count(i) for i in result}
+    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+    sub_filter = {k: v for k, v in my_dict}
+
     return render_template('dashboard.html', products=categories, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
 @app.route('/filters', methods=['GET', 'POST'])
 def filters():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
-    sorted_master = session.get('cat_filter', None)
-    sub_filter = session.get('sub_filter', None)
+    # sorted_master = session.get('cat_filter', None)
+    # sub_filter = session.get('sub_filter', None)
     search = "%{}%".format(tag)
-    total_prod = len(Products.query.filter(Products.subCategory.like(search)).all())
-    categories = Products.query.filter(Products.subCategory.like(search)).paginate(page=page, per_page=12)
+    prode = db.session.query(Products).all()
+    total_prod = len(Products.query.filter(Products.articleType.like(search)).all())
+    categories = Products.query.filter(Products.articleType.like(search)).paginate(page=page, per_page=12)
+
+        # FIlter MasterCat
+    res = list(item.masterCategory for item in prode)
+    my_dict = {i:res.count(i) for i in res}
+    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+    sorted_master = {k: v for k, v in my_dict}
+
+    #Filter SubCat
+    result = list(item.articleType for item in prode)
+    my_dict = {i:result.count(i) for i in result}
+    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+    sub_filter = {k: v for k, v in my_dict}
     return render_template('dashboard.html', products=categories, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
 
@@ -287,7 +314,7 @@ def search():
             productDisplayName = [item.productDisplayName for item in all_products]
             id = [item.id for item in all_products]
             df = pd.DataFrame()
-            index = [value for value in range(10000)]
+            index = [value for value in range(3216)]
             df['productDisplayName'] = productDisplayName
             df['id'] = id
             df['index'] = index
@@ -300,31 +327,36 @@ def search():
             # Similarity Score
             similarity = cosine_similarity(feature_vectors)
             find_close_match = difflib.get_close_matches(name, combined_features)
-            close_match = find_close_match[0]
-            # Finding the index of product with name
-            index_product = df[df.combined_features == close_match]['index'].values[0]
-            # Printing a list of similar products
-            similarity_score = list(enumerate(similarity[index_product]))
-            # Sort products based on their similarity score
-            sorted_similar = sorted(similarity_score, key = lambda x:x[1], reverse=True)
 
-            id_list = []
-            for prod in sorted_similar:
-                index = prod[0]
-                product_id = df[df.index==index]['id'].values[0]
-                if len(id_list) <= 6:
-                    id_list.append(product_id)
-                else:
-                    pass
+            try:
+                close_match = find_close_match[0]
+                            # Finding the index of product with name
+                index_product = df[df.combined_features == close_match]['index'].values[0]
+                # Printing a list of similar products
+                similarity_score = list(enumerate(similarity[index_product]))
+                # Sort products based on their similarity score
+                sorted_similar = sorted(similarity_score, key = lambda x:x[1], reverse=True)
 
-            searched_products = []        
-            for p_id in id_list:
-                search_products = db.session.query(Products).filter(Products.id == p_id).first()
-                searched_products.append(search_products)
+                id_list = []
+                for prod in sorted_similar:
+                    index = prod[0]
+                    product_id = df[df.index==index]['id'].values[0]
+                    if len(id_list) <= 6:
+                        id_list.append(product_id)
+                    else:
+                        pass
 
-            print(searched_products)
+                searched_products = []        
+                for p_id in id_list:
+                    search_products = db.session.query(Products).filter(Products.id == p_id).first()
+                    searched_products.append(search_products)
+                return render_template('product-list.html', searched_product=searched_products, name=name)
 
-            return render_template('product-list.html', searched_product=searched_products, name=name)
+            except:
+                close_match = 'None'
+                return render_template('product-list.html', searched_product=close_match, name=name)
+                
+
 
         else:
 
