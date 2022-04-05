@@ -33,6 +33,11 @@ html {
   text-transform: capitalize;
 }
 
+.services-title h2 {
+  padding-top: 60px;
+  padding-bottom: 20px;
+}
+
 .password {
   color: #fff;
   padding-top: 2px;
@@ -718,7 +723,6 @@ section#contact .form-contact .submit-btn {
   width: 50px;
   cursor: pointer;
   position: absolute;
-  bottom: 170px;
   left: 59%;
   transform: translateX(-50%);
   height: 50px;
@@ -822,7 +826,7 @@ footer.footer-area .contact-info h3 {
 .s_product_text h2 {
   font-size: 24px;
   font-weight: bold;
-  color: #ff3368;
+  color: #111;
   margin-bottom: 15px;
 }
 
@@ -847,7 +851,7 @@ footer.footer-area .contact-info h3 {
 
 /* line 648, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
 .s_product_text .list li a span {
-  width: 110px;
+  width: 150px;
   display: inline-block;
 }
 
@@ -970,6 +974,11 @@ footer.footer-area .contact-info h3 {
 .product_description_area {
   padding-bottom: 120px;
   margin-top: 60px;
+}
+
+.best_seller {
+  padding-bottom: 120px;
+  padding-top: 100px;
 }
 
 @media (max-width: 991px) {
@@ -1263,7 +1272,7 @@ footer.footer-area .contact-info h3 {
 
 /* line 1023, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_product.scss */
 .review_box .btn_3 {
-  margin-top: 5px;
+  margin-top: 13px;
   padding: 13px 39px;
 }
 
@@ -1319,32 +1328,27 @@ footer.footer-area .contact-info h3 {
 }
 
 /* line 33, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_button.scss */
-.btn_1:hover {
-  background-color: #ff3368;
-  color: #fff;
-}
 
 /* line 38, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_button.scss */
 .btn_3 {
   display: inline-block;
   padding: 9px 42px;
-  border-radius: 50px;
-  background-color: #ff3368;
+  border-radius: 10px;
+  background-color: #111;
   border: 1px solid #ecfdff;
   font-size: 15px;
   font-weight: 700;
   color: #fff;
   text-transform: uppercase;
   font-weight: 400;
-  box-shadow: -1.717px 8.835px 29.76px 2.24px rgba(255, 51, 104, 0.18);
-  border: 1px solid #ff3368;
+  border: 1px solid #111;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 /* line 52, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_button.scss */
 .btn_3:hover {
-  background-color: red;
+  background-color: black;
   color: #fff;
 }
 

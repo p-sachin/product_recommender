@@ -51,7 +51,7 @@ model = tensorflow.keras.Sequential([
 
 feature_list = np.array(joblib.load(open('image-embed.pkl', 'rb')))
 filenames = joblib.load(open('file-name.pkl', 'rb'))
-myjsonfile = open('csvjson.json', 'r')
+myjsonfile = open('csvjson10000.json', 'r')
 jsondata = myjsonfile.read()
 
 products = json.loads(jsondata)
@@ -194,7 +194,7 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/dashboard', methods=['GET'])
+@app.route('/dashboard', methods=['GET', 'POST'])
 #@login_required
 def dashboard():
     page = request.args.get('page', 1, type=int)
@@ -242,7 +242,7 @@ def dashboard():
         my_dict = {i:result.count(i) for i in result}
         my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
         sub_filter = {k: v for k, v in my_dict}
-
+        
         return render_template('dashboard.html', products=prod, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
     else:
@@ -257,7 +257,6 @@ def categories():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
     sorted_master = session.get('cat_filter', None)
-    total_prod = session.get('prod_count', None)
     sub_filter = session.get('sub_filter', None)
     search = "%{}%".format(tag)
     total_prod = len(Products.query.filter(Products.masterCategory.like(search)).all())
@@ -269,7 +268,6 @@ def filters():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
     sorted_master = session.get('cat_filter', None)
-    total_prod = session.get('prod_count', None)
     sub_filter = session.get('sub_filter', None)
     search = "%{}%".format(tag)
     total_prod = len(Products.query.filter(Products.subCategory.like(search)).all())

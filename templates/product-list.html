@@ -82,7 +82,7 @@ hr {
 <header class="header-content">
   <nav class="navbar navbar-expand-lg navbar-light">
      <div class="container">
-      <a class="navbar-brand logo" href="#">Fashiona</a>
+      <a class="navbar-brand logo" href="{{ url_for('index') }}">Fashlance</a>
 
        <!-- <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="25" height="24" class="nav-logo"> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle Navigation">
@@ -94,10 +94,10 @@ hr {
                  <a href="{{ url_for('index') }}" class="nav-link">Home</a>
               </li>
               <li class="nav-item">
-                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Dashboard</a>
+                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Back to Products</a>
               </li>
               <li class="nav-item">
-                 <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                 <a href="{{ url_for('logout') }}" class="nav-link">Contact</a>
               </li>
            </ul>
         </div>

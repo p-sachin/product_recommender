@@ -64,7 +64,7 @@ hr {
 <header class="header-content">
   <nav class="navbar navbar-expand-lg navbar-light">
      <div class="container">
-      <a class="navbar-brand logo" href="#">Fashiona</a>
+      <a class="navbar-brand logo" href="{{ url_for('index') }}">Fashlance</a>
 
        <!-- <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="25" height="24" class="nav-logo"> -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle Navigation">
@@ -76,10 +76,10 @@ hr {
                  <a href="{{ url_for('index') }}" class="nav-link">Home</a>
               </li>
               <li class="nav-item">
-                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Dashboard</a>
+                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Products</a>
               </li>
               <li class="nav-item">
-                 <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                 <a href="{{ url_for('logout') }}" class="nav-link">Contact</a>
               </li>
            </ul>
         </div>
@@ -118,28 +118,28 @@ hr {
            <ul class="list">
              <li>
                <a class="#" href="#">
-                 <span>Main Category</span> : {{information.masterCategory}}</a>
+                 <span>Main Category :</span> {{information.masterCategory}}</a>
              </li>
              <li>
-               <a href="#"> <span>Availibility</span> : In Stock</a>
+               <a href="#"> <span>Availibility : </span> In Stock</a>
              </li>
              <li>
-              <a href="#"> <span>Sub Category</span> : {{information.subCategory}}</a>
+              <a href="#"> <span>Sub Category : </span> {{information.subCategory}}</a>
             </li>
             <li>
-              <a href="#"> <span>Type</span> : {{information.articleType}}</a>
+              <a href="#"> <span>Type : </span> {{information.articleType}}</a>
             </li>
             <li>
-              <a href="#"> <span>Gender</span> : {{information.gender}}</a>
+              <a href="#"> <span>Gender : </span> {{information.gender}}</a>
             </li>
             <li>
-              <a href="#"> <span>Color</span> : {{information.baseColour}}</a>
+              <a href="#"> <span>Color : </span> {{information.baseColour}}</a>
             </li>
             <li>
-              <a href="#"> <span>Season</span> : {{information.season}}</a>
+              <a href="#"> <span>Season : </span> {{information.season}}</a>
             </li>
             <li>
-              <a href="#"> <span>Usage</span> : {{information.usage}}</a>
+              <a href="#"> <span>Usage : </span> {{information.usage}}</a>
             </li>
            </ul>
          </div>
@@ -149,19 +149,17 @@ hr {
  </div>
  <!--================End Single Product Area =================-->
 
+ <!-- Services Section Starts-->
+<section id="services" class="bg-feature-area product_description_area">
+	<div class="container">
+		<div class="services-title text-center mb-80">
+			<h2 class="fw-light">Comments</h2>
+		</div>
+
  <!--================Product Description Area =================-->
- <section class="product_description_area">
-   <div class="container">
-     <ul class="nav nav-tabs" id="myTab" role="tablist">
-       <li class="nav-item">
-         <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-           aria-selected="false">Comments</a>
-       </li>
-     </ul>
-     <div class="tab-content" id="myTabContent">
-       <div class="tab-pane fade show active" id="contact" role="tabpanel" aria-labelledby="contact-tab">
          <div class="row">
-           <div class="col-lg-6"> 
+           <div class="col-lg-6 review_box"> 
+             <h4>Recent Comments</h4>
              <div class="comment_list">
               {% for comment in comments %}
                <div class="review_item">
@@ -183,7 +181,7 @@ hr {
            </div>
            <div class="col-lg-6">
              <div class="review_box">
-               <h4>Post a comment</h4>
+               <h4>Your comment</h4>
                <form class="row contact_form" action="#" method="post" id="contactForm"
                  novalidate="novalidate">
                  <div class="col-md-12">
@@ -211,9 +209,7 @@ hr {
              </div>
            </div>
          </div>
-       </div>
      </div>
-   </div>
  </section>
  <!--================End Product Description Area =================-->
 
@@ -223,7 +219,7 @@ hr {
     <div class="row justify-content-center">
       <div class="col-lg-12">
         <div class="section_tittle text-center">
-          <h2>Recommended Products</h2>
+          <h3>Similar Products</h3>
         </div>
       </div>
     </div>
