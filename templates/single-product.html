@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .styled-table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .styled-table thead tr {
+   background-color: #777777;
+   color: #ffffff;
+   text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+   border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+   background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+   border-bottom: 2px solid #777777;
+}
+
+.styled-table tbody tr.active-row {
+   font-weight: bold;
+   color: #009879;
+}
+
+hr {
+   position: relative;
+   top: 69px;
+}
+
+.mt-160 {
+   margin-top: 160px;
+}
+
+.flash-upload {
+   padding-left: 400px;
+}
+
+</style>
+    
+<header class="header-content">
+  <nav class="navbar navbar-expand-lg navbar-light">
+     <div class="container">
+      <a class="navbar-brand logo" href="{{ url_for('index') }}">Fashlance</a>
+
+       <!-- <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="25" height="24" class="nav-logo"> -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle Navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+           <ul class="navbar-nav main">
+              <li class="nav-item">
+                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Products</a>
+              </li>
+              <li class="nav-item">
+                 <a href="{{ url_for('technologies') }}" class="nav-link">Tools</a>
+              </li>
+           </ul>
+        </div>
+     </div>
+  </nav>
+</header>
+
+<section class="py-5 text-center container-fluid blog-banner" id="about">
+   <div class="row py-lg-5">
+     <div class="col-lg-6 col-md-8 mx-auto">
+       <h1 class="fw-light">Product Details</h1>
+       <p class="lead text-muted"></p>
+       <p>
+       </p>
+     </div>
+   </div>
+ </section>
+
+  <!--================Single Product Area =================-->
+  <div class="product_image_area section_padding">
+   <div class="container">
+     <div class="row s_product_inner justify-content-between">
+       <div class="col-lg-6 col-xl-6">
+         <div class="product_slider_img">
+           <div id="vertical">
+             <div data-thumb="{{information.image}}">
+               <img src="{{information.image}}" />
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-lg-6 col-xl-6">
+         <div class="s_product_text">
+           <h3>{{information.productDisplayName}}</h3>
+           <h2>${{information.amount}}</h2>
+           <ul class="list">
+             <li>
+               <a class="#" href="#">
+                 <span>Main Category :</span> {{information.masterCategory}}</a>
+             </li>
+             <li>
+               <a href="#"> <span>Availibility : </span> In Stock</a>
+             </li>
+             <li>
+              <a href="#"> <span>Sub Category : </span> {{information.subCategory}}</a>
+            </li>
+            <li>
+              <a href="#"> <span>Type : </span> {{information.articleType}}</a>
+            </li>
+            <li>
+              <a href="#"> <span>Gender : </span> {{information.gender}}</a>
+            </li>
+            <li>
+              <a href="#"> <span>Color : </span> {{information.baseColour}}</a>
+            </li>
+            <li>
+              <a href="#"> <span>Season : </span> {{information.season}}</a>
+            </li>
+            <li>
+              <a href="#"> <span>Usage : </span> {{information.usage}}</a>
+            </li>
+           </ul>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+ <!--================End Single Product Area =================-->
+
+ <!-- Services Section Starts-->
+<section id="services" class="bg-feature-area product_description_area">
+	<div class="container">
+		<div class="services-title text-center mb-80">
+			<h2 class="fw-light">Comments</h2>
+		</div>
+
+ <!--================Product Description Area =================-->
+         <div class="row">
+           <div class="col-lg-6 review_box"> 
+             <h4>Recent Comments</h4>
+             <div class="comment_list">
+              {% for comment in comments %}
+               <div class="review_item">
+                 <div class="media">
+                   <div class="d-flex">
+                     <img src="img/product/single-product/review-1.png" alt="" />
+                   </div>
+                   <div class="media-body">
+                     <h4>{{comment.name}}</h4>
+                     <h5>{{comment.posted_at}}</h5>
+                   </div>
+                 </div>
+                 <p>
+                   {{comment.message}}
+                 </p>
+               </div>
+               {% endfor %}
+             </div>
+           </div>
+           <div class="col-lg-6">
+             <div class="review_box">
+               <h4>Your comment</h4>
+               <form class="row contact_form" action="#" method="post" id="contactForm"
+                 novalidate="novalidate">
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <input type="text" class="form-control" id="name" name="name" placeholder="Your Full name" />
+                   </div>
+                 </div>
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" />
+                   </div>
+                 </div>
+                 <div class="col-md-12">
+                   <div class="form-group">
+                     <textarea class="form-control" name="message" id="message" rows="1"
+                       placeholder="Message"></textarea>
+                   </div>
+                 </div>
+                 <div class="col-md-12 text-right">
+                   <button type="submit" value="submit" class="btn_3">
+                     Submit Now
+                   </button>
+                 </div>
+               </form>
+             </div>
+           </div>
+         </div>
+     </div>
+ </section>
+ <!--================End Product Description Area =================-->
+
+ <!-- product_list part start-->
+ <section class="product_list best_seller">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div class="section_tittle text-center">
+          <h3>Similar Products</h3>
+        </div>
+      </div>
+    </div>
+      <div class="row align-items-center justify-content-between">
+        <div class="col-lg-12">
+          <div class="best_product_slider owl-carousel">
+            {% for items in rec %}
+            <div class="single_product_item">
+              <a href="{{url_for('info', id=items.id)}}"><img src="{{items.image}}" alt=""></a>
+              <div class="single_product_text">
+                <h4>{{items.productDisplayName}}</h4>
+                <h3>${{items.amount}}</h3>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+<!-- product_list part end-->
+
+    <!-- Footer Section Starts -->
+    {{footer()}}
+    <!-- Footer Section Ends -->
+
+ {% endblock %}
