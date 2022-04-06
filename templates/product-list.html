@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<style>
+  
+  .text-gray {
+      color: #aaa
+  }
+  
+  img {
+      height: 170px;
+      width: 140px
+  }
+
+
+    .styled-table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.9em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .styled-table thead tr {
+   background-color: #777777;
+   color: #ffffff;
+   text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
+
+.styled-table tbody tr {
+   border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+   background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+   border-bottom: 2px solid #777777;
+}
+
+.styled-table tbody tr.active-row {
+   font-weight: bold;
+   color: #009879;
+}
+
+hr {
+   position: relative;
+   top: 69px;
+}
+
+.mt-160 {
+   margin-top: 160px;
+}
+
+.flash-upload {
+   padding-left: 400px;
+}
+
+</style>
+    
+<header class="header-content">
+  <nav class="navbar navbar-expand-lg navbar-light">
+     <div class="container">
+      <a class="navbar-brand logo" href="{{ url_for('index') }}">Fashlance</a>
+
+       <!-- <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="25" height="24" class="nav-logo"> -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-expanded="false" aria-controls="navbarCollapse" aria-label="Toggle Navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+           <ul class="navbar-nav main">
+              <li class="nav-item">
+                 <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                 <a href="{{ url_for('dashboard') }}" class="nav-link active">Products</a>
+              </li>
+              <li class="nav-item">
+                 <a href="{{ url_for('technologies') }}" class="nav-link">Tools</a>
+              </li>
+           </ul>
+        </div>
+     </div>
+  </nav>
+</header>
+
+
+<section class="py-5 text-center container-fluid blog-banner" id="about">
+   <div class="row py-lg-5">
+     <div class="col-lg-6 col-md-8 mx-auto">
+       <h1 class="fw-light">Products List</span></h1>
+       <p class="lead text-muted"></p>
+       <p>
+       </p>
+     </div>
+   </div>
+ </section>
+ 
+ <div class="container-fluid py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            {% if searched_product %}
+            {% if searched_product == 'None' %}
+            <div class="searched-text">
+                <h4>No results found for the searched item "<span class="misc-text">{{name}}</span>"</h4>
+            </div>
+            {% else %}
+            <div class="searched-text">
+                <h4>Showing results for the searched item "<span class="misc-text">{{name}}</span>"</h4>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="searched-text">
+                <h4>Showing products similar to your image: </h4>
+            </div>
+            <div class="search-img">
+                <img src="{{ url_for('static', filename='img/' + img_name) }}" >
+            </div>
+            {% endif %}
+            <!-- List group-->
+            <ul class="list-group shadow">
+                <!-- list group item-->
+                {% if searched_product %}
+                {% if searched_product == 'None' %}
+                    <div></div>
+                {% else %}
+                  {% for items in searched_product %}
+                <li class="list-group-item">
+                    <!-- Custom content-->
+                    <div class="d-flex p-3">
+                        <div class="media-body order-2 order-lg-1 product-info">
+                            <h5 class="mt-0 font-weight-bold mb-2"><a href="{{url_for('info', id=items.id)}}">{{items.productDisplayName}}</a></h5>
+                            <p class="font-italic text-muted mb-0 small">{{items.masterCategory}} | {{items.subCategory}} | {{items.articleType}} | {{items.baseColour}} | {{items.usage}} | {{items.gender}}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2">${{items.amount}}</h6>
+                            </div>
+                        </div><img src="{{items.image}}" alt="Generic placeholder image" width="200" class="ml-lg-5">
+                    </div> <!-- End -->
+                </li> <!-- End -->
+                {% endfor %}
+                {% endif %}
+
+                {% else %}
+
+                {% for items in prod_lists %}
+                <li class="list-group-item">
+                    <!-- Custom content-->
+                    <div class="d-flex p-3">
+                        <div class="media-body order-2 order-lg-1 product-info">
+                            <h5 class="mt-0 font-weight-bold mb-2"><a href="{{url_for('info', id=items.id)}}">{{items.productDisplayName}}</a></h5>
+                            <p class="font-italic text-muted mb-0 small">{{items.articleType}} | {{items.subCategory}} | {{items.masterCategory}}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2">${{items.amount}}</h6>
+                            </div>
+                        </div><img src="{{items.image}}" alt="Generic placeholder image" width="200" class="ml-lg-5">
+                    </div> <!-- End -->
+                </li> <!-- End -->
+                {% endfor %}
+                {% endif %}
+
+            </ul> <!-- End -->
+        </div>
+    </div>
+</div>
+
+    <!-- Footer Section Starts -->]
+    {{footer()}}
+    <!-- Footer Section Ends -->
+
+ {% endblock %}
