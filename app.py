@@ -21,7 +21,6 @@ import requests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:kaiwayne@localhost:5433/flask_products'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
@@ -120,7 +119,6 @@ def technologies():
     return render_template('technologies.html')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
-#@login_required
 def dashboard():
     page = request.args.get('page', 1, type=int)
     if request.method == 'GET':
@@ -148,9 +146,6 @@ def dashboard():
 
         prode = db.session.query(Products).all()
 
-        base_color = [item.baseColour for item in prode]
-        article_type = [item.articleType for item in prode]
-
         prod = db.session.query(Products).paginate(page=page, per_page=12)
 
         #Counts
@@ -170,19 +165,10 @@ def dashboard():
         
         return render_template('dashboard.html', products=prod, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
-    # else:
-
-    #     session['cat_filter'] = sorted_master
-    #     session['sub_filter'] = sub_filter
-    #     return redirect(url_for('categories'))
-
-
 @app.route('/categories', methods=['GET', 'POST'])
 def categories():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
-    # sorted_master = session.get('cat_filter', None)
-    # sub_filter = session.get('sub_filter', None)
     search = "%{}%".format(tag)
     prode = db.session.query(Products).all()
     total_prod = len(Products.query.filter(Products.masterCategory.like(search)).all())
@@ -206,8 +192,6 @@ def categories():
 def filters():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
-    # sorted_master = session.get('cat_filter', None)
-    # sub_filter = session.get('sub_filter', None)
     search = "%{}%".format(tag)
     prode = db.session.query(Products).all()
     total_prod = len(Products.query.filter(Products.articleType.like(search)).all())
