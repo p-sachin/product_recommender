@@ -4,13 +4,12 @@ import joblib
 import numpy as np
 import pandas as pd
 import difflib
-import tensorflow
+from keras.models import load_model
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from tensorflow.keras.layers import GlobalMaxPooling2D
 from tensorflow.keras.preprocessing import image
 from keras.preprocessing.image import load_img
-from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
+from tensorflow.keras.applications.resnet50 import preprocess_input
 from numpy.linalg import norm
 from sklearn.neighbors import NearestNeighbors
 from PIL import Image
@@ -25,18 +24,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-
-model = ResNet50(weights="imagenet", include_top=False, input_shape=(60,80,3))
-model.trainable = False
-
-model = tensorflow.keras.Sequential([
-    model,
-    GlobalMaxPooling2D()
-])
-
 feature_list = np.array(joblib.load(open('image_embed_1.pkl', 'rb')))
 filenames = joblib.load(open('_file_name_1.pkl', 'rb'))
 myjsonfile = open('_final_csvjson.json', 'r')
+model = load_model("product_model.h5")
 jsondata = myjsonfile.read()
 
 products = json.loads(jsondata)
@@ -229,6 +220,7 @@ def search():
             df['index'] = index
             df['base_color'] = base_color
             df['article_type'] = article_type
+            df['article_type'].str.lower()
             combined_features = df['base_color']+' '+df['article_type']
             df['combined_features'] = combined_features
             vectorizer = TfidfVectorizer()
