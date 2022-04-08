@@ -339,9 +339,6 @@ nav .navbar-toggler {
   border: 0;
 }
 
-nav .navbar-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1.2)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-}
 
 nav.navbar .nav-item {
   padding: 0 13px 0 13px;
@@ -535,24 +532,81 @@ section#home-content {
   cursor: pointer;
 }
 
-.flash-login {
-  color: red;
-  font-size: 14px;
-}
+@media (max-width: 576px) { 
 
-.flash-signup {
-  color: green !important;
-  font-size: 14px;
-}
+  .home-text-inner h3 {
+    font-size: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #111;
+    visibility: hidden;
+  }
 
-.flash-upload {
-  color: green !important;
-  font-size: 14px;
+  /*this sets the actual file input to overlay our button*/
+#fileup {
+  opacity: 0;
+  -moz-opacity: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+  width: 25px !important;
+  cursor: pointer;
+  position: absolute;
+  left: 59%;
+  transform: translateX(-50%);
+  height: 50px;
 }
+  
+  .home-text-inner h1 {
+    font-size: 30px;
+    color: #111;
+    text-transform: capitalize;
+    font-weight: 700;
+    text-align: center;
+    font-family: "Raleway", sans-serif;
+  }
 
-.pred-result p.text {
-  color: green;
-}
+  nav .navbar-toggler .navbar-toggler-icon {
+    color: black;
+  }
+
+  .home-text-inner p {
+    font-size: 15px;
+    color: #111;
+    padding-bottom: 20px;
+    text-align: center;
+  }
+  
+  .home-text-inner .hire-me {
+    max-width: 150px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    border-style: none;
+    background: #111;
+    font-size: 13px;
+    color: #fff !important;
+    text-transform: capitalize;
+    font-weight: 600;
+  }
+
+  section#contact .contact-title h2 {
+    font-size: 20px !important; 
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  section#contact .form-contact .form-group .form-control {
+    font-size: 13px;
+    width: 200px !important;
+    line-height: 27px;
+    border: 1px solid #efefef;
+    border-radius: 0;
+    color: #777777;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500;
+  }
+
+ }
 
 section.blog-banner {
   background: url("../img/blog-banner.jpg") no-repeat;

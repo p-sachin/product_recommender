@@ -9,11 +9,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 from keras.preprocessing.image import load_img
 
 
-
 @app.route('/')
 def index():
-    all_products = db.session.query(Products).all()
-    return render_template('index.html', all_products=all_products)
+    return render_template('index.html')
 
 @app.route('/technologies')
 def technologies():
@@ -45,24 +43,20 @@ def dashboard():
                 db.session.add(product2database)
         db.session.commit()
 
-        prode = db.session.query(Products).all()
+        master_cat = [value[0] for value in db.session.query(Products.masterCategory)]
+        art_cat = [value[0] for value in db.session.query(Products.articleType)]
+
 
         prod = db.session.query(Products).paginate(page=page, per_page=12)
 
         #Counts
-        total_prod = len(prode)
+        total_prod = len(master_cat)
 
-        # FIlter MasterCat
-        res = list(item.masterCategory for item in prode)
-        my_dict = {i:res.count(i) for i in res}
-        my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-        sorted_master = {k: v for k, v in my_dict}
+        # Filter MasterCat
+        sorted_master = filter_opt(master_cat)
 
-        #Filter SubCat
-        result = list(item.articleType for item in prode)
-        my_dict = {i:result.count(i) for i in result}
-        my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-        sub_filter = {k: v for k, v in my_dict}
+        #Filter artCat
+        sub_filter = filter_opt(art_cat)
         
         return render_template('dashboard.html', products=prod, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
@@ -71,21 +65,16 @@ def categories():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
     search = "%{}%".format(tag)
-    prode = db.session.query(Products).all()
+    master_cat = [value[0] for value in db.session.query(Products.masterCategory)]
+    art_cat = [value[0] for value in db.session.query(Products.articleType)]
     total_prod = len(Products.query.filter(Products.masterCategory.like(search)).all())
     categories = Products.query.filter(Products.masterCategory.like(search)).paginate(page=page, per_page=12)
 
-    # FIlter MasterCat
-    res = list(item.masterCategory for item in prode)
-    my_dict = {i:res.count(i) for i in res}
-    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-    sorted_master = {k: v for k, v in my_dict}
+    # Filter MasterCat
+    sorted_master = filter_opt(master_cat)
 
-    #Filter SubCat
-    result = list(item.articleType for item in prode)
-    my_dict = {i:result.count(i) for i in result}
-    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-    sub_filter = {k: v for k, v in my_dict}
+    #Filter artCat
+    sub_filter = filter_opt(art_cat)
 
     return render_template('dashboard.html', products=categories, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
 
@@ -94,25 +83,18 @@ def filters():
     page = request.args.get('page', 1, type=int)
     tag = request.args.get('type')
     search = "%{}%".format(tag)
-    prode = db.session.query(Products).all()
+    master_cat = [value[0] for value in db.session.query(Products.masterCategory)]
+    art_cat = [value[0] for value in db.session.query(Products.articleType)]
     total_prod = len(Products.query.filter(Products.articleType.like(search)).all())
     categories = Products.query.filter(Products.articleType.like(search)).paginate(page=page, per_page=12)
 
-        # FIlter MasterCat
-    res = list(item.masterCategory for item in prode)
-    my_dict = {i:res.count(i) for i in res}
-    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-    sorted_master = {k: v for k, v in my_dict}
+    # Filter MasterCat
+    sorted_master = filter_opt(master_cat)
 
-    #Filter SubCat
-    result = list(item.articleType for item in prode)
-    my_dict = {i:result.count(i) for i in result}
-    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
-    sub_filter = {k: v for k, v in my_dict}
+    #Filter artCat
+    sub_filter = filter_opt(art_cat)
+
     return render_template('dashboard.html', products=categories, prod_count=total_prod, cat_filter=sorted_master, sub_filter=sub_filter)
-
-
-
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
@@ -121,16 +103,15 @@ def search():
             all_products = db.session.query(Products).all()
             base_color = [item.baseColour for item in all_products]
             article_type = [item.articleType for item in all_products]
-            productDisplayName = [item.productDisplayName for item in all_products]
             id = [item.id for item in all_products]
             df = pd.DataFrame()
             index = [value for value in range(3216)]
-            df['productDisplayName'] = productDisplayName
             df['id'] = id
             df['index'] = index
             df['base_color'] = base_color
             df['article_type'] = article_type
-            df['article_type'].str.lower()
+            df['article_type'] = df['article_type'].str.lower()
+            df['base_color'] = df['base_color'].str.lower()
             combined_features = df['base_color']+' '+df['article_type']
             df['combined_features'] = combined_features
             vectorizer = TfidfVectorizer()

@@ -56,3 +56,10 @@ def image_search_recommend(img, feature_list):
         digit = ''.join(digits)
         reco_product_id.append(digit)
     return reco_product_id
+
+
+def filter_opt(target):
+    my_dict = {i:target.count(i) for i in target}
+    my_dict = sorted(my_dict.items(), key=lambda x: x[1], reverse=True)
+    result = {k: v for k, v in my_dict}
+    return result

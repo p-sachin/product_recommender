@@ -109,8 +109,8 @@ hr {
 			<h2 class="fw-light">Search your products</h2>
 		</div>
         
-    <div class="row">
-         <div class="col-lg-12">
+    <div class="row d-flex justify-content-center">
+         <div class="col-lg-12 col-8">
             <form action = "/search" method = "POST" 
             enctype = "multipart/form-data" id="contactForm" class="row form-contact">
             <div class="row">
@@ -187,7 +187,7 @@ hr {
 
                   <div class="row align-items-center latest_product_inner">
                      {% for items in products.items %}
-                      <div class="col-lg-4 col-sm-6">
+                      <div class="col-lg-4 col-sm-6 col-4">
                           <div class="single_product_item">
                               <a href="{{url_for('info', id=items.id)}}"><img src="{{items.image}}" alt=""></a>
                               <div class="single_product_text">

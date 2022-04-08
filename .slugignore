@@ -1,0 +1,5 @@
+# Heres a comment
+*.csv
+*.ipynb
+notebooks/
+data/
