@@ -767,15 +767,16 @@ section#contact .form-contact .submit-btn {
 
 /*this sets the actual file input to overlay our button*/
 #fileup {
+  margin-top: 10px;
   opacity: 0;
   -moz-opacity: 0;
   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
-  width: 50px;
+  width: 22px;
   cursor: pointer;
   position: absolute;
   left: 59%;
   transform: translateX(-50%);
-  height: 50px;
+  height: 17px;
 }
 
 .form_status {

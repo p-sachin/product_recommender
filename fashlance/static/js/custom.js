@@ -43,6 +43,10 @@ if (best_product_slider.length) {
 
 AOS.init();
 
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+
 // Navigation Scroll
 
 function navbarOnScroll(){
