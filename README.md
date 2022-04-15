@@ -16,4 +16,4 @@ To use this repo,
 - Next, run the flask app using  
   `python app.py`
 
-- Check the working app: http://fashlance.heroku.com
+- Check the working app: http://fashlance.herokuapp.com
