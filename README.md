@@ -15,3 +15,5 @@ To use this repo,
   `pip3 install -r requirements.txt`
 - Next, run the flask app using  
   `python app.py`
+
+- Check the working app: http://fashlance.heroku.com
