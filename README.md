@@ -1,6 +1,6 @@
 # Product Recommendation System
 
-![alt text](github-banner.png)
+![alt text](./fashlance/static/img/github-banner.png)
 
 ## Description
 
